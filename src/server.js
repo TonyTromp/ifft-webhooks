@@ -3,12 +3,11 @@ const app = express();
 const ngrok = require('ngrok');
 const { exec } = require("child_process");
 
-const port = process.env.IFFT_PORT || 8080;
+const port = process.env.IFFT_PORT;
 const shared_secret = process.env.IFFT_SHARED_SECRET || '3m)(1!P_2po(*1';
 const cmd_prefix = 'IFFT_CMD_';
 
 /* TEST CMD */
-
 process.env.IFFT_CMD_WEBHOOK_TEST="ls -l"
 
 app.get('/', (req, res) => {
@@ -48,7 +47,8 @@ app.get('/ifft/:cmd', function(req , res){
   }
 });
 
-const server = app.listen(port, () => {
+function start_webserver(ngrok_url) {
+  const server = app.listen(port, () => {
     console.log('IFFT Webhooks running on port: '+ port);
     console.log('IFFT_SHARED_SECRET: '+ shared_secret);
     console.log('\nPredifine your own webhook commands in bash/shell using environment variables');
@@ -60,19 +60,14 @@ const server = app.listen(port, () => {
     );
 
     available_commands.forEach(element => {
-      console.log('\t/ifft/'+element.slice(cmd_prefix.length)+'?shared_secret='+shared_secret);
+      console.log('\t'+ngrok_url+'/ifft/'+element.slice(cmd_prefix.length)+'?shared_secret='+shared_secret);
     });
 
-});
+  });
+}
 
 
-ngrok.connect({
-    proto : 'http',
-    addr : process.env.PORT,
-}, (err, url) => {
-    if (err) {
-        console.error('Error while connecting Ngrok',err);
-        return new Error('Ngrok Failed');
-    }
+ngrok.connect(port).then(function(result){
+  start_webserver(result);
 });
 

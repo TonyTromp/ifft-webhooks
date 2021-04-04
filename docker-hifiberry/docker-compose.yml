@@ -1,0 +1,10 @@
+version: '2.2'
+services:
+  ifft-webhooks:
+    image: edgecrush3r/ifft-hifiberry
+    network_mode: bridge
+    environment:
+      - IFFT_PORT=3690
+    dns:
+      - 8.8.8.8
+
