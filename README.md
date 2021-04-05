@@ -73,4 +73,4 @@ Available Webhooks:"
 
 5. Go to IFFT.com and add the Available Webhooks to your favorite triggers (Alexa, Google etc)
 
-
+** Note that the URL will be changed everytime the docker container is (re)-launched. 
