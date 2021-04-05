@@ -6,6 +6,7 @@ services:
     environment:
       - "IFFT_PORT=3690"
       - "IFFT_VAR_SERVER_ADDRESS=10.0.1.9"
+      - "IFFT_SHARED_SECRET=@x102mLY)_!"
       # IFFT_CMD_<YOUR_TRIGGER_NAME>="<YOUR_CMD_HERE>"
       - "IFFT_CMD_PLAY=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/play"
       - "IFFT_CMD_STOP=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/stop"
