@@ -4,7 +4,17 @@ services:
     image: edgecrush3r/ifft-hifiberry
     network_mode: bridge
     environment:
-      - IFFT_PORT=3690
+      - "IFFT_PORT=3690"
+      - "IFFT_VAR_SERVER_ADDRESS=10.0.1.9"
+      # IFFT_CMD_<YOUR_TRIGGER_NAME>="<YOUR_CMD_HERE>"
+      - "IFFT_CMD_PLAY=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/play"
+      - "IFFT_CMD_STOP=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/stop"
+      - "IFFT_CMD_NEXT=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/next"
+      - "IFFT_CMD_PREVIOUS=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/previous"
+      - "IFFT_CMD_PAUSE=curl -v -X POST -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/pause"
+      - "IFFT_CMD_STATUS=curl -v -X GET -H 'Content-Type: application/json' http://[SERVER_ADDRESS]:81/api/player/status"
+      - "IFFT_CMD_VOLUME_DOWN=curl -v -X POST -H 'Content-Type: application/json' -d '{\"percent\":\"-5\"}' http://[SERVER_ADDRESS]:81/api/volume"
+      - "IFFT_CMD_VOLUME_UP=curl -v -X POST -H 'Content-Type: application/json' -d '{\"percent\":\"+5\"}' http://[SERVER_ADDRESS]:81/api/volume"
     dns:
       - 8.8.8.8
 

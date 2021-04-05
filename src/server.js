@@ -6,6 +6,7 @@ const { exec } = require("child_process");
 const port = process.env.IFFT_PORT;
 const shared_secret = process.env.IFFT_SHARED_SECRET || '3m)(1!P_2po(*1';
 const cmd_prefix = 'IFFT_CMD_';
+const custom_var_prefix='IFFT_VAR_';
 
 /* TEST CMD */
 process.env.IFFT_CMD_WEBHOOK_TEST="ls -l"
@@ -22,6 +23,16 @@ app.get('/ifft/:cmd', function(req , res){
     let shell_cmd = process.env[ cmd_prefix + req.params.cmd];
 
     if (shell_cmd ) {
+ 
+      // CHECK IF WE NEED TO REPLACE ANY VALUESa
+      custom_vars = Object.keys(process.env).filter(
+        key => key.match( custom_var_prefix )
+      );
+
+      custom_vars.forEach(element => {
+	shell_cmd = shell_cmd.replace('['+ element.slice(custom_var_prefix.length) +']', process.env[element] );
+      });
+
       console.log('executing: '+ shell_cmd);
       res.send('Executing: ' + shell_cmd);
 
