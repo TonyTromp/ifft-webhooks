@@ -40,7 +40,7 @@ services:
 cd docker-hifiberry
 ./build_docker.sh
 ```
-2. Edit the docker-compose file and change custom variables like 'IFFT_VAR_SERVER_ADDRESS'
+2. Edit the docker-compose file and change custom variables like 'IFFT_VAR_SERVER_ADDRESS' and 'IFFT_SHARED_SECRET'
 3. Run the docker-container
 ```
   docker-compose up -d
